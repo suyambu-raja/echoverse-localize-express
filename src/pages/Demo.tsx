@@ -9,34 +9,40 @@ import { useToast } from "@/hooks/use-toast";
 
 const DEMO_VIDEOS = {
   en: {
-    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-    title: "Big Buck Bunny",
-    description: "Original English Version"
+    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+    title: "Business Meeting - Product Launch Discussion",
+    description: "Original English Version - Sarah & John discussing Q4 strategy",
+    speakers: "Sarah Chen (CEO) & John Smith (VP Marketing)"
   },
   es: {
-    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-    title: "Big Buck Bunny",
-    description: "Spanish Localized Version"
+    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+    title: "Reunión de Negocios - Discusión de Lanzamiento de Producto",
+    description: "Versión en Español - Sarah y John discutiendo la estrategia del Q4",
+    speakers: "Sarah Chen (CEO) & John Smith (VP Marketing)"
   },
   fr: {
     url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-    title: "Big Buck Bunny",
-    description: "French Localized Version"
+    title: "Réunion d'Affaires - Discussion sur le Lancement de Produit",
+    description: "Version Française - Sarah et John discutant de la stratégie Q4",
+    speakers: "Sarah Chen (PDG) & John Smith (VP Marketing)"
   },
   de: {
     url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-    title: "Big Buck Bunny",
-    description: "German Localized Version"
+    title: "Geschäftstreffen - Produkteinführung Diskussion",
+    description: "Deutsche Version - Sarah und John diskutieren Q4-Strategie",
+    speakers: "Sarah Chen (CEO) & John Smith (VP Marketing)"
   },
   ja: {
     url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-    title: "Big Buck Bunny",
-    description: "Japanese Localized Version"
+    title: "ビジネスミーティング - 製品発表の議論",
+    description: "日本語版 - SarahとJohnがQ4戦略を議論",
+    speakers: "Sarah Chen (CEO) & John Smith (VP Marketing)"
   },
   zh: {
     url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
-    title: "Big Buck Bunny",
-    description: "Chinese Localized Version"
+    title: "商务会议 - 产品发布讨论",
+    description: "中文版 - Sarah和John讨论第四季度策略",
+    speakers: "Sarah Chen (CEO) & John Smith (VP Marketing)"
   }
 };
 
@@ -86,7 +92,7 @@ const Demo = () => {
       
       <main className="container mx-auto px-4 pt-24 pb-12">
         <div className="max-w-6xl mx-auto space-y-6">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-4">
             <Button variant="ghost" onClick={() => navigate('/')}>
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Home
@@ -97,6 +103,22 @@ const Demo = () => {
             </div>
             <div className="w-24" />
           </div>
+
+          <Card className="p-4 mb-6 bg-gradient-to-r from-primary/10 to-accent/10 border-primary/20">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                <Globe className="w-5 h-5 text-primary" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold mb-1">Live Conversation Localization</h3>
+                <p className="text-sm text-muted-foreground">
+                  Watch how the same business conversation seamlessly transforms across languages. 
+                  Each version maintains the original speakers' voices, lip sync, and cultural context. 
+                  Switch between languages to see the AI-powered localization in action.
+                </p>
+              </div>
+            </div>
+          </Card>
 
           <div className="grid lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2">
@@ -121,8 +143,16 @@ const Demo = () => {
                 </div>
 
                 <div className="space-y-2">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                    <span className="text-sm text-muted-foreground">Localized Version</span>
+                  </div>
                   <h2 className="text-xl font-semibold">{currentVideo.title}</h2>
                   <p className="text-muted-foreground">{currentVideo.description}</p>
+                  <div className="flex items-center gap-2 pt-2 text-sm">
+                    <span className="font-medium">Speakers:</span>
+                    <span className="text-muted-foreground">{currentVideo.speakers}</span>
+                  </div>
                 </div>
 
                 <div className="flex gap-2">
@@ -176,27 +206,37 @@ const Demo = () => {
               </Card>
 
               <Card className="p-6 space-y-4">
-                <h3 className="text-lg font-semibold">Features Demo</h3>
-                <div className="space-y-3 text-sm">
-                  <div className="flex items-start gap-2">
-                    <div className="w-2 h-2 rounded-full bg-primary mt-1.5" />
-                    <div>
-                      <p className="font-medium">Voice Cloning</p>
-                      <p className="text-muted-foreground">AI-powered voice matching</p>
-                    </div>
+                <h3 className="text-lg font-semibold">Conversation Details</h3>
+                <div className="space-y-4 text-sm">
+                  <div>
+                    <p className="font-medium mb-2">Topic: Q4 Product Launch</p>
+                    <p className="text-muted-foreground">
+                      Sarah and John are discussing their company's upcoming product launch strategy for the fourth quarter.
+                    </p>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <div className="w-2 h-2 rounded-full bg-primary mt-1.5" />
-                    <div>
-                      <p className="font-medium">Lip Sync</p>
-                      <p className="text-muted-foreground">Accurate mouth movement</p>
+                  
+                  <div className="pt-4 border-t space-y-3">
+                    <p className="font-medium">AI Localization Features:</p>
+                    <div className="flex items-start gap-2">
+                      <div className="w-2 h-2 rounded-full bg-primary mt-1.5" />
+                      <div>
+                        <p className="font-medium">Voice Cloning</p>
+                        <p className="text-muted-foreground">Original speaker voices preserved</p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <div className="w-2 h-2 rounded-full bg-primary mt-1.5" />
-                    <div>
-                      <p className="font-medium">Cultural Adaptation</p>
-                      <p className="text-muted-foreground">Context-aware translation</p>
+                    <div className="flex items-start gap-2">
+                      <div className="w-2 h-2 rounded-full bg-primary mt-1.5" />
+                      <div>
+                        <p className="font-medium">Lip Sync</p>
+                        <p className="text-muted-foreground">Perfect mouth movement sync</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <div className="w-2 h-2 rounded-full bg-primary mt-1.5" />
+                      <div>
+                        <p className="font-medium">Cultural Adaptation</p>
+                        <p className="text-muted-foreground">Context-aware translation</p>
+                      </div>
                     </div>
                   </div>
                 </div>
