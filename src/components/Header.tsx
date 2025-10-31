@@ -18,6 +18,9 @@ export const Header = () => {
 
           {/* Navigation */}
           <nav className="hidden md:flex items-center gap-8">
+            <button onClick={() => navigate('/demo')} className="text-sm font-medium hover:text-primary transition-colors">
+              Demo
+            </button>
             <button onClick={() => navigate('/features')} className="text-sm font-medium hover:text-primary transition-colors">
               Features
             </button>

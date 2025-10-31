@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import VideoCall from "./pages/VideoCall";
+import Demo from "./pages/Demo";
 import FeaturesPage from "./pages/FeaturesPage";
 import PipelinePage from "./pages/PipelinePage";
 import PricingPage from "./pages/PricingPage";
@@ -21,6 +22,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/demo" element={<Demo />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/call" element={<VideoCall />} />
           <Route path="/features" element={<FeaturesPage />} />

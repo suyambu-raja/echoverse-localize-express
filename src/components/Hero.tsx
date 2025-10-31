@@ -37,12 +37,12 @@ export const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in">
-            <Button size="lg" className="group shadow-glow" onClick={() => navigate('/auth')}>
-              Start Localizing Free
+            <Button size="lg" className="group shadow-glow" onClick={() => navigate('/demo')}>
+              Try Demo
               <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button size="lg" variant="outline" onClick={() => navigate('/auth')}>
-              Try Video Call
+              Try AI Voice Call
             </Button>
           </div>
 
