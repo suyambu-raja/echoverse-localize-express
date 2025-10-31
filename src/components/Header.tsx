@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import { Globe } from "lucide-react";
 
 export const Header = () => {
+  const navigate = useNavigate();
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-lg">
       <div className="container mx-auto px-4">
@@ -32,10 +34,10 @@ export const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" onClick={() => navigate('/auth')}>
               Sign In
             </Button>
-            <Button size="sm" className="shadow-glow">
+            <Button size="sm" className="shadow-glow" onClick={() => navigate('/auth')}>
               Get Started
             </Button>
           </div>

@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export const Hero = () => {
+  const navigate = useNavigate();
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated background mesh */}
@@ -35,12 +37,12 @@ export const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in">
-            <Button size="lg" className="group shadow-glow">
+            <Button size="lg" className="group shadow-glow" onClick={() => navigate('/auth')}>
               Start Localizing Free
               <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button size="lg" variant="outline">
-              Watch Demo
+            <Button size="lg" variant="outline" onClick={() => navigate('/auth')}>
+              Try Video Call
             </Button>
           </div>
 
