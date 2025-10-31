@@ -160,10 +160,15 @@ const VideoCall = () => {
           <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
             EchoVerse Video Call
           </h1>
-          <Button variant="outline" onClick={handleSignOut}>
-            <LogOut className="w-4 h-4 mr-2" />
-            Sign Out
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => navigate('/')}>
+              Exit to Home
+            </Button>
+            <Button variant="outline" onClick={handleSignOut}>
+              <LogOut className="w-4 h-4 mr-2" />
+              Sign Out
+            </Button>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">

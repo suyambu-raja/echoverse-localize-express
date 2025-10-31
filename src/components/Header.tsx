@@ -18,18 +18,15 @@ export const Header = () => {
 
           {/* Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-sm font-medium hover:text-primary transition-colors">
+            <button onClick={() => navigate('/features')} className="text-sm font-medium hover:text-primary transition-colors">
               Features
-            </a>
-            <a href="#pipeline" className="text-sm font-medium hover:text-primary transition-colors">
+            </button>
+            <button onClick={() => navigate('/how-it-works')} className="text-sm font-medium hover:text-primary transition-colors">
               How it Works
-            </a>
-            <a href="#pricing" className="text-sm font-medium hover:text-primary transition-colors">
+            </button>
+            <button onClick={() => navigate('/pricing')} className="text-sm font-medium hover:text-primary transition-colors">
               Pricing
-            </a>
-            <a href="#docs" className="text-sm font-medium hover:text-primary transition-colors">
-              Docs
-            </a>
+            </button>
           </nav>
 
           {/* Actions */}
