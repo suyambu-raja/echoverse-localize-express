@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
-import VideoCall from "./pages/VideoCall";
+
 import Demo from "./pages/Demo";
 import FeaturesPage from "./pages/FeaturesPage";
 import PipelinePage from "./pages/PipelinePage";
@@ -25,7 +25,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/demo" element={<Demo />} />
           <Route path="/auth" element={<Auth />} />
-          <Route path="/call" element={<VideoCall />} />
+          
           <Route path="/workspace" element={<Workspace />} />
           <Route path="/features" element={<FeaturesPage />} />
           <Route path="/how-it-works" element={<PipelinePage />} />
