@@ -21,6 +21,9 @@ export const Header = () => {
             <button onClick={() => navigate('/demo')} className="text-sm font-medium hover:text-primary transition-colors">
               Demo
             </button>
+            <button onClick={() => navigate('/workspace')} className="text-sm font-medium hover:text-primary transition-colors">
+              Workspace
+            </button>
             <button onClick={() => navigate('/features')} className="text-sm font-medium hover:text-primary transition-colors">
               Features
             </button>

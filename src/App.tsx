@@ -10,6 +10,7 @@ import Demo from "./pages/Demo";
 import FeaturesPage from "./pages/FeaturesPage";
 import PipelinePage from "./pages/PipelinePage";
 import PricingPage from "./pages/PricingPage";
+import Workspace from "./pages/Workspace";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/demo" element={<Demo />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/call" element={<VideoCall />} />
+          <Route path="/workspace" element={<Workspace />} />
           <Route path="/features" element={<FeaturesPage />} />
           <Route path="/how-it-works" element={<PipelinePage />} />
           <Route path="/pricing" element={<PricingPage />} />
