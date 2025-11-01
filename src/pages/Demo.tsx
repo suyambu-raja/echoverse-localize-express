@@ -7,42 +7,99 @@ import { Header } from "@/components/Header";
 import { ArrowLeft, Play, Download, Globe } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-const DEMO_VIDEOS = {
+// Single video URL - same video plays for all languages
+const VIDEO_URL = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+
+const LOCALIZED_CONTENT = {
   en: {
-    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
-    title: "Business Meeting - Product Launch Discussion",
-    description: "Original English Version - Sarah & John discussing Q4 strategy",
-    speakers: "Sarah Chen (CEO) & John Smith (VP Marketing)"
+    title: "Manager-Employee Performance Review",
+    description: "Department Manager discussing quarterly goals with team member",
+    speakers: "Manager: David Martinez | Employee: Sarah Johnson",
+    captions: [
+      "Manager: Good morning Sarah, please have a seat.",
+      "Employee: Thank you, Mr. Martinez.",
+      "Manager: Let's discuss your Q3 performance. Your sales numbers exceeded targets by 15%.",
+      "Employee: I appreciate that. The new client onboarding process really helped.",
+      "Manager: Excellent work. For Q4, we'd like you to mentor two junior team members.",
+      "Employee: I'd be honored to help develop the team.",
+      "Manager: Great. We'll also increase your project budget by 20%.",
+      "Employee: Thank you for the confidence in my work."
+    ]
   },
   es: {
-    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
-    title: "Reunión de Negocios - Discusión de Lanzamiento de Producto",
-    description: "Versión en Español - Sarah y John discutiendo la estrategia del Q4",
-    speakers: "Sarah Chen (CEO) & John Smith (VP Marketing)"
+    title: "Revisión de Desempeño Gerente-Empleado",
+    description: "Gerente de departamento discutiendo objetivos trimestrales con miembro del equipo",
+    speakers: "Gerente: David Martinez | Empleada: Sarah Johnson",
+    captions: [
+      "Gerente: Buenos días Sarah, por favor siéntate.",
+      "Empleada: Gracias, Sr. Martinez.",
+      "Gerente: Hablemos de tu desempeño en el Q3. Tus números de ventas superaron los objetivos en un 15%.",
+      "Empleada: Lo aprecio. El nuevo proceso de incorporación de clientes realmente ayudó.",
+      "Gerente: Excelente trabajo. Para el Q4, nos gustaría que mentorizaras a dos miembros junior del equipo.",
+      "Empleada: Sería un honor ayudar a desarrollar al equipo.",
+      "Gerente: Genial. También aumentaremos tu presupuesto de proyecto en un 20%.",
+      "Empleada: Gracias por la confianza en mi trabajo."
+    ]
   },
   fr: {
-    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-    title: "Réunion d'Affaires - Discussion sur le Lancement de Produit",
-    description: "Version Française - Sarah et John discutant de la stratégie Q4",
-    speakers: "Sarah Chen (PDG) & John Smith (VP Marketing)"
+    title: "Évaluation de Performance Manager-Employé",
+    description: "Chef de département discutant des objectifs trimestriels avec un membre de l'équipe",
+    speakers: "Manager: David Martinez | Employée: Sarah Johnson",
+    captions: [
+      "Manager: Bonjour Sarah, asseyez-vous s'il vous plaît.",
+      "Employée: Merci, M. Martinez.",
+      "Manager: Parlons de votre performance au Q3. Vos chiffres de vente ont dépassé les objectifs de 15%.",
+      "Employée: J'apprécie cela. Le nouveau processus d'intégration client a vraiment aidé.",
+      "Manager: Excellent travail. Pour le Q4, nous aimerions que vous mentorisez deux membres juniors de l'équipe.",
+      "Employée: Je serais honorée d'aider à développer l'équipe.",
+      "Manager: Parfait. Nous augmenterons également votre budget de projet de 20%.",
+      "Employée: Merci pour la confiance dans mon travail."
+    ]
   },
   de: {
-    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-    title: "Geschäftstreffen - Produkteinführung Diskussion",
-    description: "Deutsche Version - Sarah und John diskutieren Q4-Strategie",
-    speakers: "Sarah Chen (CEO) & John Smith (VP Marketing)"
+    title: "Manager-Mitarbeiter Leistungsbeurteilung",
+    description: "Abteilungsleiter bespricht vierteljährliche Ziele mit Teammitglied",
+    speakers: "Manager: David Martinez | Mitarbeiterin: Sarah Johnson",
+    captions: [
+      "Manager: Guten Morgen Sarah, bitte setzen Sie sich.",
+      "Mitarbeiterin: Danke, Herr Martinez.",
+      "Manager: Sprechen wir über Ihre Q3-Leistung. Ihre Verkaufszahlen übertrafen die Ziele um 15%.",
+      "Mitarbeiterin: Das schätze ich. Der neue Kundeneinführungsprozess hat wirklich geholfen.",
+      "Manager: Ausgezeichnete Arbeit. Für Q4 möchten wir, dass Sie zwei Junior-Teammitglieder betreuen.",
+      "Mitarbeiterin: Es wäre mir eine Ehre, das Team zu entwickeln.",
+      "Manager: Großartig. Wir werden auch Ihr Projektbudget um 20% erhöhen.",
+      "Mitarbeiterin: Danke für das Vertrauen in meine Arbeit."
+    ]
   },
   ja: {
-    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-    title: "ビジネスミーティング - 製品発表の議論",
-    description: "日本語版 - SarahとJohnがQ4戦略を議論",
-    speakers: "Sarah Chen (CEO) & John Smith (VP Marketing)"
+    title: "マネージャーと従業員の業績評価",
+    description: "部門マネージャーがチームメンバーと四半期目標について話し合う",
+    speakers: "マネージャー: David Martinez | 従業員: Sarah Johnson",
+    captions: [
+      "マネージャー: おはようございます、サラ、座ってください。",
+      "従業員: ありがとうございます、マルティネスさん。",
+      "マネージャー: Q3のパフォーマンスについて話しましょう。あなたの売上数字は目標を15%上回りました。",
+      "従業員: 感謝します。新しいクライアントオンボーディングプロセスが本当に役立ちました。",
+      "マネージャー: 素晴らしい仕事です。Q4では、2人のジュニアチームメンバーを指導してほしいと思います。",
+      "従業員: チームを育成できることを光栄に思います。",
+      "マネージャー: 素晴らしい。プロジェクト予算も20%増やします。",
+      "従業員: 私の仕事への信頼に感謝します。"
+    ]
   },
   zh: {
-    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
-    title: "商务会议 - 产品发布讨论",
-    description: "中文版 - Sarah和John讨论第四季度策略",
-    speakers: "Sarah Chen (CEO) & John Smith (VP Marketing)"
+    title: "经理-员工绩效评估",
+    description: "部门经理与团队成员讨论季度目标",
+    speakers: "经理: David Martinez | 员工: Sarah Johnson",
+    captions: [
+      "经理: 早上好，Sarah，请坐。",
+      "员工: 谢谢，Martinez先生。",
+      "经理: 让我们讨论一下你的第三季度表现。你的销售数字超过目标15%。",
+      "员工: 我很感激。新的客户入职流程真的很有帮助。",
+      "经理: 出色的工作。第四季度，我们希望你指导两名初级团队成员。",
+      "员工: 我很荣幸能帮助发展团队。",
+      "经理: 太好了。我们还会将你的项目预算增加20%。",
+      "员工: 感谢您对我工作的信任。"
+    ]
   }
 };
 
@@ -60,10 +117,10 @@ const Demo = () => {
   const { toast } = useToast();
   const [selectedLanguage, setSelectedLanguage] = useState('en');
   const [isProcessing, setIsProcessing] = useState(false);
-  const [currentVideo, setCurrentVideo] = useState(DEMO_VIDEOS.en);
+  const [currentContent, setCurrentContent] = useState(LOCALIZED_CONTENT.en);
 
   useEffect(() => {
-    setCurrentVideo(DEMO_VIDEOS[selectedLanguage as keyof typeof DEMO_VIDEOS]);
+    setCurrentContent(LOCALIZED_CONTENT[selectedLanguage as keyof typeof LOCALIZED_CONTENT]);
   }, [selectedLanguage]);
 
   const handleLanguageChange = (language: string) => {
@@ -128,30 +185,43 @@ const Demo = () => {
                     <div className="absolute inset-0 bg-black/80 flex items-center justify-center z-10">
                       <div className="text-center space-y-4">
                         <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
-                        <p className="text-white text-lg">Localizing video...</p>
+                        <p className="text-white text-lg">Switching language...</p>
                       </div>
                     </div>
                   )}
                   <video
-                    key={currentVideo.url}
                     className="w-full h-full"
                     controls
-                    src={currentVideo.url}
+                    src={VIDEO_URL}
                   >
                     Your browser does not support the video tag.
                   </video>
                 </div>
 
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 mb-2">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-                    <span className="text-sm text-muted-foreground">Localized Version</span>
+                    <span className="text-sm text-muted-foreground">Localized Audio Version</span>
                   </div>
-                  <h2 className="text-xl font-semibold">{currentVideo.title}</h2>
-                  <p className="text-muted-foreground">{currentVideo.description}</p>
-                  <div className="flex items-center gap-2 pt-2 text-sm">
+                  <h2 className="text-xl font-semibold">{currentContent.title}</h2>
+                  <p className="text-muted-foreground">{currentContent.description}</p>
+                  <div className="flex items-center gap-2 text-sm">
                     <span className="font-medium">Speakers:</span>
-                    <span className="text-muted-foreground">{currentVideo.speakers}</span>
+                    <span className="text-muted-foreground">{currentContent.speakers}</span>
+                  </div>
+
+                  <div className="pt-4 border-t">
+                    <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                      <span className="w-1 h-4 bg-primary rounded" />
+                      Captions ({LANGUAGES.find(l => l.code === selectedLanguage)?.name})
+                    </h3>
+                    <div className="space-y-2 max-h-48 overflow-y-auto p-4 bg-muted/30 rounded-lg">
+                      {currentContent.captions.map((caption, index) => (
+                        <p key={index} className="text-sm leading-relaxed">
+                          {caption}
+                        </p>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
@@ -209,9 +279,9 @@ const Demo = () => {
                 <h3 className="text-lg font-semibold">Conversation Details</h3>
                 <div className="space-y-4 text-sm">
                   <div>
-                    <p className="font-medium mb-2">Topic: Q4 Product Launch</p>
+                    <p className="font-medium mb-2">Scenario: Performance Review Meeting</p>
                     <p className="text-muted-foreground">
-                      Sarah and John are discussing their company's upcoming product launch strategy for the fourth quarter.
+                      A department manager conducting a quarterly performance review with a team member, discussing achievements and future goals.
                     </p>
                   </div>
                   
@@ -243,12 +313,12 @@ const Demo = () => {
               </Card>
 
               <Card className="p-6 space-y-4 bg-gradient-to-br from-primary/10 to-accent/10 border-primary/20">
-                <h3 className="text-lg font-semibold">Try Live AI Call</h3>
+                <h3 className="text-lg font-semibold">Start Your Project</h3>
                 <p className="text-sm text-muted-foreground">
-                  Experience real-time multilingual conversation with AI
+                  Upload your videos and localize them to any language
                 </p>
-                <Button onClick={() => navigate('/auth')} className="w-full">
-                  Start AI Call Demo
+                <Button onClick={() => navigate('/workspace')} className="w-full">
+                  Go to Workspace
                 </Button>
               </Card>
             </div>
