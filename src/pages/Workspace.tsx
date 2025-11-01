@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { Upload, Video, LogOut, Languages, Play } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Header } from "@/components/Header";
 
 const LANGUAGES = [
   { code: "en", name: "English" },
@@ -226,21 +227,16 @@ export default function Workspace() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border bg-card">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <Video className="h-6 w-6 text-primary" />
-            <h1 className="text-2xl font-bold">EchoVerse Workspace</h1>
-          </div>
+      <Header />
+
+      <div className="container mx-auto px-4 pt-24 pb-8">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold">Workspace</h1>
           <Button onClick={handleSignOut} variant="outline" size="sm">
             <LogOut className="h-4 w-4 mr-2" />
             Sign Out
           </Button>
         </div>
-      </header>
-
-      <div className="container mx-auto px-4 py-8">
         {!currentProject ? (
           <div className="grid md:grid-cols-2 gap-8">
             {/* Upload Section */}
