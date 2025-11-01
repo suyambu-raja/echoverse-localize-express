@@ -9,12 +9,15 @@ export const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center gap-2">
+          <button 
+            onClick={() => navigate('/')} 
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          >
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
               <Globe className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-bold">EchoVerse</span>
-          </div>
+          </button>
 
           {/* Navigation */}
           <nav className="hidden md:flex items-center gap-8">
