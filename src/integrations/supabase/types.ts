@@ -44,6 +44,44 @@ export type Database = {
         }
         Relationships: []
       }
+      localizations: {
+        Row: {
+          caption_text: string | null
+          created_at: string
+          id: string
+          project_id: string
+          status: string
+          target_language: string
+          updated_at: string
+        }
+        Insert: {
+          caption_text?: string | null
+          created_at?: string
+          id?: string
+          project_id: string
+          status?: string
+          target_language: string
+          updated_at?: string
+        }
+        Update: {
+          caption_text?: string | null
+          created_at?: string
+          id?: string
+          project_id?: string
+          status?: string
+          target_language?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "localizations_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -68,6 +106,39 @@ export type Database = {
           full_name?: string | null
           id?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      projects: {
+        Row: {
+          created_at: string
+          duration_sec: number | null
+          id: string
+          name: string
+          source_language: string
+          source_video_url: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          duration_sec?: number | null
+          id?: string
+          name: string
+          source_language?: string
+          source_video_url: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          duration_sec?: number | null
+          id?: string
+          name?: string
+          source_language?: string
+          source_video_url?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
