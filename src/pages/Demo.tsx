@@ -1,14 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
 import { Header } from "@/components/Header";
-import { ArrowLeft, Play, Download, Globe } from "lucide-react";
+import { ArrowLeft, Play, Download, Globe, Volume2, Mic } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-// Single video URL - same video plays for all languages
-const VIDEO_URL = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+// YouTube video ID
+const YOUTUBE_VIDEO_ID = "ZK3jSXYBNak";
 
 const LOCALIZED_CONTENT = {
   en: {
@@ -112,16 +113,43 @@ const LANGUAGES = [
   { code: 'zh', name: 'Chinese', flag: '🇨🇳' },
 ];
 
+const VOICE_OPTIONS = [
+  { id: 'original', name: 'Original Voice' },
+  { id: 'male-deep', name: 'Male Deep' },
+  { id: 'female-soft', name: 'Female Soft' },
+  { id: 'neutral', name: 'Neutral' },
+  { id: 'energetic', name: 'Energetic' },
+];
+
 const Demo = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [selectedLanguage, setSelectedLanguage] = useState('en');
   const [isProcessing, setIsProcessing] = useState(false);
   const [currentContent, setCurrentContent] = useState(LOCALIZED_CONTENT.en);
+  const [showCaptions, setShowCaptions] = useState(true);
+  const [currentCaptionIndex, setCurrentCaptionIndex] = useState(0);
+  const [selectedVoice, setSelectedVoice] = useState('original');
+  const [voicePitch, setVoicePitch] = useState([1]);
+  const [voiceSpeed, setVoiceSpeed] = useState([1]);
+  const playerRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     setCurrentContent(LOCALIZED_CONTENT[selectedLanguage as keyof typeof LOCALIZED_CONTENT]);
   }, [selectedLanguage]);
+
+  // Simulate caption sync with video playback
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (showCaptions) {
+        setCurrentCaptionIndex((prev) => 
+          (prev + 1) % currentContent.captions.length
+        );
+      }
+    }, 4000); // Change caption every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [showCaptions, currentContent.captions.length]);
 
   const handleLanguageChange = (language: string) => {
     setIsProcessing(true);
@@ -140,6 +168,14 @@ const Demo = () => {
     toast({
       title: "Download started",
       description: "Your localized video is being prepared",
+    });
+  };
+
+  const handleVoiceChange = (voice: string) => {
+    setSelectedVoice(voice);
+    toast({
+      title: "Voice changed",
+      description: `Switched to ${VOICE_OPTIONS.find(v => v.id === voice)?.name}`,
     });
   };
 
@@ -189,13 +225,32 @@ const Demo = () => {
                       </div>
                     </div>
                   )}
-                  <video
+                  
+                  <iframe
+                    ref={playerRef}
                     className="w-full h-full"
-                    controls
-                    src={VIDEO_URL}
+                    src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?enablejsapi=1&cc_load_policy=1`}
+                    title="YouTube video player"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                  
+                  {showCaptions && (
+                    <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 bg-black/80 px-4 py-2 rounded-lg max-w-[90%] transition-opacity duration-300">
+                      <p className="text-white text-center text-sm md:text-base">
+                        {currentContent.captions[currentCaptionIndex]}
+                      </p>
+                    </div>
+                  )}
+                  
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="absolute top-2 right-2 z-20"
+                    onClick={() => setShowCaptions(!showCaptions)}
                   >
-                    Your browser does not support the video tag.
-                  </video>
+                    {showCaptions ? 'Hide' : 'Show'} Captions
+                  </Button>
                 </div>
 
                 <div className="space-y-4">
@@ -272,6 +327,74 @@ const Demo = () => {
                       </Button>
                     ))}
                   </div>
+                </div>
+              </Card>
+
+              <Card className="p-6 space-y-4">
+                <div className="flex items-center gap-2">
+                  <Mic className="w-5 h-5 text-primary" />
+                  <h3 className="text-lg font-semibold">Voice Settings</h3>
+                </div>
+                
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Voice Type</label>
+                    <Select value={selectedVoice} onValueChange={handleVoiceChange}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {VOICE_OPTIONS.map(voice => (
+                          <SelectItem key={voice.id} value={voice.id}>
+                            {voice.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium mb-2 flex items-center gap-2">
+                      <Volume2 className="w-4 h-4" />
+                      Voice Pitch: {voicePitch[0].toFixed(1)}x
+                    </label>
+                    <Slider
+                      value={voicePitch}
+                      onValueChange={setVoicePitch}
+                      min={0.5}
+                      max={2}
+                      step={0.1}
+                      className="w-full"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium mb-2 flex items-center gap-2">
+                      <Play className="w-4 h-4" />
+                      Playback Speed: {voiceSpeed[0].toFixed(1)}x
+                    </label>
+                    <Slider
+                      value={voiceSpeed}
+                      onValueChange={setVoiceSpeed}
+                      min={0.5}
+                      max={2}
+                      step={0.1}
+                      className="w-full"
+                    />
+                  </div>
+
+                  <Button 
+                    variant="outline" 
+                    className="w-full"
+                    onClick={() => {
+                      setVoicePitch([1]);
+                      setVoiceSpeed([1]);
+                      setSelectedVoice('original');
+                      toast({ title: "Reset to defaults" });
+                    }}
+                  >
+                    Reset to Defaults
+                  </Button>
                 </div>
               </Card>
 
